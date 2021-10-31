@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
 from django.views.decorators.cache import cache_page
 
 from .forms import CommentForm, PostForm
@@ -66,7 +65,7 @@ def post_detail(request, post_id):
     context = {
         'post': user_post,
         'posts_count': posts_count,
-        'form': form,   
+        'form': form,
         'comments': comments,
     }
     return render(request, 'posts/post_detail.html', context)

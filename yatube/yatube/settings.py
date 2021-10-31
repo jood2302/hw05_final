@@ -26,10 +26,10 @@ SECRET_KEY = '^(_!y2ojb+9jgn2(les(3ie-0(hn)f^^6+y59(unjk7&brkzgs'
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost',
-    '127.0.0.1',
-    '[::1]',
-    'testserver',
-]
+                 '127.0.0.1',
+                 '[::1]',
+                 'testserver',
+                ]
 
 
 # Application definition
@@ -152,4 +152,4 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
-} 
+}

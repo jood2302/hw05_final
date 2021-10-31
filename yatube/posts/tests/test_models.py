@@ -67,4 +67,3 @@ class FollowModelTest(TestCase):
         self.assertEqual(expected_user_username, str(follow.user.username))
         expected_author_username = follow.author.username
         self.assertEqual(expected_author_username, str(follow.author.username))
-

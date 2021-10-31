@@ -51,7 +51,6 @@ class Post(models.Model):
         return self.text
 
 
-
 class Comment(CreatedModel):
     post = models.ForeignKey(
         Post,
