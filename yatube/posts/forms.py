@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Post, Comment
+from .models import Comment, Post
 
 
 class PostForm(forms.ModelForm):
@@ -16,8 +16,9 @@ class PostForm(forms.ModelForm):
             }),
             'group': forms.Select(attrs={
                 'class': 'form-control',
-                'name': 'tetx',
+                'name': 'text',
             }),
+            'image': forms.ImageField(),
         }
 
     class Meta:

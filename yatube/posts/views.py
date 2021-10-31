@@ -43,10 +43,16 @@ def profile(request, username):
     paginator = Paginator(user_posts, settings.POST_COUNT)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    if request.user.is_authenticated:
+        following = Follow.objects.filter(
+            user=request.user, author=user_profile)
+    else:
+        following = False
     context = {
         'author': user_profile,
         'page_obj': page_obj,
         'count': posts_count,
+        'following': following,
     }
     return render(request, 'posts/profile.html', context)
 
@@ -68,7 +74,10 @@ def post_detail(request, post_id):
 
 @login_required
 def post_create(request):
-    form = PostForm(request.POST or None)
+    form = PostForm(
+        request.POST or None,
+        files=request.FILES or None
+    )
     if form.is_valid():
         post = form.save(commit=False)
         post.author = request.user
@@ -134,7 +143,6 @@ def profile_follow(request, username):
 @login_required
 def profile_unfollow(request, username):
     author = get_object_or_404(User, username=username)
-    unfollowing = get_object_or_404(Follow, user=request.user, author=author)
-    if request.method != 'POST':
-        unfollowing.delete()
+    if request.user != author:
+        Follow.objects.filter(user=request.user, author=author).delete()
     return redirect('posts:profile', author)

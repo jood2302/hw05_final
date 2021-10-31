@@ -46,6 +46,7 @@ class TaskPagesTests(TestCase):
         self.public_post = 'posts/post_detail.html'
 
     def test_pages_use_correct_template(self):
+        cache.clear()
         templates_pages_names = {
             self.public_index_template: reverse('posts:index'),
             self.public_profile: reverse('posts:profile',
@@ -68,6 +69,7 @@ class TaskPagesTests(TestCase):
         self.assertTemplateUsed(response, self.private_create_post_template)
 
     def test_context(self):
+        cache.clear()
         url_names = [reverse('posts:index'),
                      reverse('posts:post_detail',
                              kwargs={'post_id': self.post.id}),
@@ -117,6 +119,7 @@ class TaskPagesTests(TestCase):
         self.assertFalse(response.context['page_obj'].has_next())
 
     def test_chech_post_in_index_and_profile(self):
+        cache.clear()
         templates_pages_names = {reverse('posts:index'),
                                  reverse('posts:profile',
                                  kwargs={'username': self.user.username})}
