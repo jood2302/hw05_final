@@ -10,7 +10,7 @@ from .models import Follow, Group, Post, User
 
 @cache_page(20, key_prefix='index_page')
 def index(request):
-    post_list = Post.objects.all()
+    post_list = Post.objects.select_related().all()
     paginator = Paginator(post_list, settings.POST_COUNT)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -44,7 +44,7 @@ def profile(request, username):
     page_obj = paginator.get_page(page_number)
     if request.user.is_authenticated:
         following = Follow.objects.filter(
-            user=request.user, author=user_profile)
+            user=request.user, author=user_profile).exists()
     else:
         following = False
     context = {

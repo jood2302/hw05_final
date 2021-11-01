@@ -288,25 +288,35 @@ class FollowTest(TestCase):
             user=self.follower,
             author=self.author
         )
+        self.test_follow = Follow.objects.get(
+            user=self.follower,
+            author=self.author
+        )
 
-    def test_follow(self):
+    def test_user_can_follow(self):
+        self.follower_client.get(reverse(
+            'posts:profile_follow',
+            kwargs={'username': self.author.username})
+        )
         self.assertTrue(
             Follow.objects.filter(
-                user=self.follower.is_authenticated, author=self.author,
+                user=self.follower,
+                author=self.author
             ).exists()
         )
-        response = Follow.objects.filter(
-            user=self.follower.is_authenticated, author=self.author,
-        ).count()
-        self.assertEqual(response, 1)
+        self.assertEqual(self.test_follow.user, self.follower)
+        self.assertEqual(self.test_follow.author, self.author)
 
-    def test_unfollow(self):
-        Follow.objects.filter(
-            user=self.follower.is_authenticated, author=self.author,
-        ).delete()
+    def test_user_can_unfollow(self):
+        """Пользователь может отписываться от других"""
+        self.follower_client.get(reverse(
+            'posts:profile_unfollow',
+            kwargs={'username': self.test_follow.author.username})
+        )
         self.assertFalse(
             Follow.objects.filter(
-                user=self.follower.is_authenticated, author=self.author,
+                user=self.follower,
+                author=self.author
             ).exists()
         )
 

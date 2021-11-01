@@ -2,7 +2,7 @@
 {% load static %}
 {% load thumbnail %}
 {% block title%}
-<title> Публикации избранных авторов </title>
+Публикации избранных авторов
 {% endblock title %}
 {% block content %}
 <div class="container">
@@ -23,7 +23,7 @@
     {% endthumbnail %}
     <p>{{ post.text }}</p>
     <p><a href="{% url 'posts:post_detail' post.id %}">подробная информация</a></p>
-    {% if post.group.slug %}
+    {% if post.posts %}
       <p><a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a></p>
     {% endif %}
     {% if not forloop.last %}

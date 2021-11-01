@@ -96,4 +96,4 @@ class StaticURLTests(TestCase):
         response = self.client.get(
             reverse('posts:add_comment', args=[self.post.id]), follow=True)
         self.assertRedirects(
-            response, f'/auth/login/?next=/posts/{self.post.id}/comment')
+            response, f'/auth/login/?next=/posts/{self.post.id}/comment/')
