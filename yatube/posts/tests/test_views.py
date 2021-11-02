@@ -283,41 +283,41 @@ class FollowTest(TestCase):
             text='Тестовый текст',
         )
 
-    def setUp(self):
+    def setUp(self): 
         self.follow = Follow.objects.get_or_create(
             user=self.follower,
             author=self.author
         )
-        self.test_follow = Follow.objects.get(
-            user=self.follower,
-            author=self.author
+
+    def test_user_can_unfollow(self):
+        count_before_unfollow = Follow.objects.count()
+        self.follower_client.get(reverse(
+            'posts:profile_unfollow',
+            kwargs={'username': self.author.username}))
+        count_after_unfollow = Follow.objects.count()
+        self.assertNotEqual(count_before_unfollow, count_after_unfollow)
+        self.assertFalse( 
+            Follow.objects.filter( 
+                user=self.follower, 
+                author=self.author 
+            ).exists() 
         )
 
     def test_user_can_follow(self):
         self.follower_client.get(reverse(
-            'posts:profile_follow',
-            kwargs={'username': self.author.username})
-        )
-        self.assertTrue(
-            Follow.objects.filter(
-                user=self.follower,
-                author=self.author
-            ).exists()
-        )
-        self.assertEqual(self.test_follow.user, self.follower)
-        self.assertEqual(self.test_follow.author, self.author)
-
-    def test_user_can_unfollow(self):
-        """Пользователь может отписываться от других"""
-        self.follower_client.get(reverse(
             'posts:profile_unfollow',
-            kwargs={'username': self.test_follow.author.username})
-        )
-        self.assertFalse(
-            Follow.objects.filter(
-                user=self.follower,
-                author=self.author
-            ).exists()
+            kwargs={'username': self.author.username}))
+        count_before_follow = Follow.objects.count()
+        self.follower_client.get(reverse(
+            'posts:profile_follow',
+            kwargs={'username': self.author.username}))
+        count_after_follow = Follow.objects.count()
+        self.assertNotEqual(count_before_follow, count_after_follow)
+        self.assertTrue( 
+            Follow.objects.filter( 
+                user=self.follower, 
+                author=self.author 
+            ).exists() 
         )
 
     def test_follow_index_context(self):
