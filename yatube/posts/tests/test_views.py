@@ -283,7 +283,7 @@ class FollowTest(TestCase):
             text='Тестовый текст',
         )
 
-    def setUp(self): 
+    def setUp(self):
         self.follow = Follow.objects.get_or_create(
             user=self.follower,
             author=self.author
@@ -296,11 +296,11 @@ class FollowTest(TestCase):
             kwargs={'username': self.author.username}))
         count_after_unfollow = Follow.objects.count()
         self.assertNotEqual(count_before_unfollow, count_after_unfollow)
-        self.assertFalse( 
-            Follow.objects.filter( 
-                user=self.follower, 
-                author=self.author 
-            ).exists() 
+        self.assertFalse(
+            Follow.objects.filter(
+                user=self.follower,
+                author=self.author
+            ).exists()
         )
 
     def test_user_can_follow(self):
@@ -313,11 +313,11 @@ class FollowTest(TestCase):
             kwargs={'username': self.author.username}))
         count_after_follow = Follow.objects.count()
         self.assertNotEqual(count_before_follow, count_after_follow)
-        self.assertTrue( 
-            Follow.objects.filter( 
-                user=self.follower, 
-                author=self.author 
-            ).exists() 
+        self.assertTrue(
+            Follow.objects.filter(
+                user=self.follower,
+                author=self.author
+            ).exists()
         )
 
     def test_follow_index_context(self):
