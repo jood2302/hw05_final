@@ -23,7 +23,7 @@
     {% endthumbnail %}
     <p>{{ post.text }}</p>
     <p><a href="{% url 'posts:post_detail' post.id %}">подробная информация</a></p>
-    {% if post.posts.group %}
+    {% if post.group %}
       <p><a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a></p>
     {% endif %}
     {% if not forloop.last %}
